@@ -1,9 +1,12 @@
-import { render } from "react-dom";
+import { useEffect, useState } from "react";
 
 
-function Post({ date, likes, author, message, image, comments }) {
+
+function Post({ date, likes, author, message, image, comments, key }) {
+    const [likesCount, setLikesCount] = useState(0);
+
     return (
-        <div className="card m-2" style={{ width: 24 + 'rem' }} >
+        <div className="card m-2" style={{ width: "20rem" }} >
             <img src={image} className="card-img-top" alt="" />
             <div className="card-body">
                 <div className="container">
@@ -12,12 +15,18 @@ function Post({ date, likes, author, message, image, comments }) {
                         <p>{date}</p>
 
                         {/* <!-- Elemento alineado a la derecha --> */}
-                        <button type="button" className="btn btn-danger">
+                        <button key={key}
+                            onClick={() => {
+                                var value = likesCount + 1;
+                                setLikesCount(value);
+                            }}
+
+                            type="button" className="btn btn-danger">
                             <div className="d-flex align-items-center justify-content-between">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-heart-fill" viewBox="0 0 16 16" style={{ marginRight: '5px' }}>
                                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                 </svg>
-                                {likes}
+                                {likesCount}
                             </div>
                         </button>
                     </div>
