@@ -1,0 +1,26 @@
+[
+    {
+        "createdAt": "2023-09-01T08:30:00",
+        "likes": 0,
+        "author": "@turboman",
+        "image": "./public/img_card_0.jpg",
+        "comments": 3,
+        "text": "Pensaban que estaba viejo, pero estoy justo detras de ustedes"
+    },
+    {
+        "createdAt": "2023-08-15T15:45:00",
+        "likes": 0,
+        "author": "@goku",
+        "image": "./public/img_card_1.jpg",
+        "comments": 0,
+        "text": "la temporada 2023 no ha sido la mejor, pero se que ganaremos en el 2024"
+    },
+    {
+        "createdAt": "2023-09-09T22:29:00",
+        "likes": 0,
+        "author": "@maxfan",
+        "image": "./public/img_card_2.jpg",
+        "comments": 300,
+        "text": "todos saben que @max es el mejor, pero nadie lo quiere aceptar..."
+    }
+]
