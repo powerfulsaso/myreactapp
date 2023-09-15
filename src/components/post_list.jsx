@@ -22,16 +22,18 @@ function PostList({ keyword }) {
             {posts === initialState
                 ? "Loading..."
                 : posts
-                    .filter((post) => (keyword === "" ? true : post.text.toLowerCase().includes(keyword.toLowerCase())))
+                    .filter((post) => (keyword === "" ? true : post.text.toLowerCase().includes(keyword.toLowerCase()) ||
+                        post.author.username.toLowerCase().includes(keyword.toLowerCase())))
                     .map((post, i) => (
                         <Post className="m-1"
                             key={i}
                             date={TimeAgo(post.createdAt)}
                             likes={post.likes}
-                            author={post.author}
+                            author={post.author.username}
                             image={post.image}
-                            comments={post.comments}
+                            comments={post.comments.length}
                             message={post.text}
+                            postKey={i}
                         />
                     ))
             }
