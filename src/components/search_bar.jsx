@@ -10,9 +10,9 @@ function SearchBar({ searchKeyword }) {
     })
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid ">
             <form className="d-flex" role="search">
-                <input className="form-control me-2" type="search"
+                <input className="form-control " type="search"
                     placeholder="Search"
                     aria-label="Search"
                     id="searchInput"

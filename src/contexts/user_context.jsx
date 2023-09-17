@@ -1,42 +1,75 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getProfile } from "../services/data_service";
+
 import Navbar from "../components/navbar";
-import { useNavigate } from "react-router-dom";
+import { getProfile, getUserToken } from "../services/login_service";
+import Login from "../components/login";
+
 
 const UserContext = createContext();
 
 function UserContextProvider({ children }) {
     const [profile, setProfile] = useState(null);
+    const [isLogin, setIsLogin] = useState(false);
+    const [userName, setUserName] = useState(""); // Estado para el valor de inputEmail
+    const [password, setPassword] = useState(""); // Estado para el valor de inputPassword
+    const [loginError, setLoginError] = useState(false);
 
-    const navigate = useNavigate();
+    function IsValidCredential() {
+        if (userName == "" || password == "") {
+            return false;
+        }
 
+        return true;
+    }
+    async function onLoginComplete() {
+        if (IsValidCredential()) {
+            let token = await getUserToken(userName, password);
+
+            if (token) {
+                localStorage.setItem("token", token);
+
+                setIsLogin(true);
+                setLoginError(false);
+
+            } else {
+                localStorage.removeItem("token");
+                setLoginError(true);
+                setIsLogin(false);
+            }
+        }
+    }
+
+    function onLogout() {
+        localStorage.removeItem("token");
+        setIsLogin(false);
+    }
+
+    //Verifica si el token es valido
     useEffect(() => {
-        // fetchProfile();
         getProfile().then((profileData) => {
             if (profileData != null) {
                 setProfile(profileData);
+                setIsLogin(true);
             } else {
                 localStorage.removeItem("token");
-                navigate("/login");
+                setIsLogin(false);
             }
         }).catch((error) => { })
-    }, []);
+    }, [isLogin]);
 
-    if (!profile) {
-        return (
-            <div className="p-5 text-center">
-                <div className="spinner-border text-primary" role="status" />
-            </div>
-        );
-    }
 
     return (
         <UserContext.Provider
             value={{
+                setUserName,
+                setPassword,
+                loginError,
+                onLoginComplete,
+                onLogout,
+                isLogin,
                 profile,
             }}
         >
-            <Navbar onLogoClick={null} onProfileClick={null} loginOk={null} />
             {children}
         </UserContext.Provider>
     );
