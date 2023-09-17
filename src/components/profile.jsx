@@ -1,8 +1,17 @@
-function Profile({ avatar, username, bio, onLogout }) {
+import { useUserContext } from "../contexts/user_context";
+
+function Profile(
+    // { avatar, username, bio, onLogout }
+) {
+
+    const userContext = useUserContext();
+    let avatar = userContext.profile?.avatar;
+    let username = userContext.profile?.username;
+    let bio = userContext.profile?.bio;
 
     function onBtnLogout() {
         console.log("logout");
-        onLogout();
+        // onLogout();
     }
 
     return (

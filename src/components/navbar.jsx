@@ -1,17 +1,26 @@
 import { useEffect } from "react";
+import { useUserContext } from "../contexts/user_context";
+import { Link, useNavigate } from "react-router-dom";
 
-function Navbar({ onLogoClick, onProfileClick, loginOk }) {
+function Navbar(
+    // { onLogoClick, onProfileClick, loginOk }
+) {
+
+    const userContext = useUserContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const logoBtn = document.getElementById("logoBtn");
         logoBtn.addEventListener("click", function (e) {
-            onLogoClick(false); //oculta el profile
+            // onLogoClick(false); //oculta el profile
+            navigate("/");
         });
 
-        if (loginOk) {
+        if (userContext.profile) {
             const profileBtn = document.getElementById("profileBtn");
             profileBtn.addEventListener("click", function (e) {
-                onProfileClick(true);
+                // onProfileClick(true);
+                navigate("/profile");
             });
         }
     })
@@ -26,7 +35,7 @@ function Navbar({ onLogoClick, onProfileClick, loginOk }) {
                     </svg>
                     three pics
                 </button>
-                {loginOk
+                {true
                     ?
                     <div className="d-flex">
                         <button id="profileBtn" className="btn ">
@@ -35,7 +44,6 @@ function Navbar({ onLogoClick, onProfileClick, loginOk }) {
                                 <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                             </svg>
                         </button>
-
                     </div>
                     : ""
                 }

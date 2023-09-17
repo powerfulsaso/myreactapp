@@ -12,7 +12,7 @@ function App() {
   const [showProfile, setShowProfile] = useState(false);
   const [loginOk, setLoginOk] = useState(false);
   const [error, setError] = useState(false);
-  const [profile, setProfile] = useState(null);
+  // const [profile, setProfile] = useState(null);
   const [userToken, setUserToken] = useState(null);
 
   function onSearch(value) {
@@ -42,27 +42,27 @@ function App() {
     setLoginOk(false);
   }
 
-  const fetchProfile = useCallback(async () => {
-    const profileData = await getProfile();
-    if (profileData != null) {
-      setProfile(profileData);
-      setLoginOk(true);
-    } else {
-      localStorage.removeItem("token");
-      setLoginOk(false);
-    }
-  });
+  // const fetchProfile = useCallback(async () => {
+  //   const profileData = await getProfile();
+  //   if (profileData != null) {
+  //     setProfile(profileData);
+  //     setLoginOk(true);
+  //   } else {
+  //     localStorage.removeItem("token");
+  //     setLoginOk(false);
+  //   }
+  // });
 
 
-  useEffect(() => {
-    // const storedToken = localStorage.getItem("token");
-    fetchProfile();
+  // useEffect(() => {
+  //   // const storedToken = localStorage.getItem("token");
+  //   fetchProfile();
 
-  }, [loginOk]);
+  // }, [loginOk]);
 
   return (
     <>
-      <Navbar onLogoClick={setShowProfile} onProfileClick={setShowProfile} loginOk={loginOk} />
+      {/* <Navbar onLogoClick={setShowProfile} onProfileClick={setShowProfile} loginOk={loginOk} /> */}
       {!loginOk
         ? <Login onLoginComplete={onLoginComplete} error={error} />
         : <>
@@ -71,7 +71,9 @@ function App() {
             <SearchBar searchKeyword={onSearch} />
           </div>
           {showProfile
-            ? <Profile avatar={profile?.avatar} username={profile?.username} bio={profile?.bio} onLogout={onLogout} />
+            ? <Profile
+            // avatar={profile?.avatar} username={profile?.username} bio={profile?.bio} onLogout={onLogout}
+            />
             : <main className="container-fluid m-2">
               <PostList search={search} />
             </main>
