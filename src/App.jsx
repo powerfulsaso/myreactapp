@@ -12,7 +12,7 @@ function App() {
   const [showProfile, setShowProfile] = useState(false);
   const [loginOk, setLoginOk] = useState(false);
   const [error, setError] = useState(false);
-  const [profile, setProfile] = useState(null);
+  // const [profile, setProfile] = useState(null);
   const [userToken, setUserToken] = useState(null);
 
   function onSearch(value) {
@@ -36,34 +36,44 @@ function App() {
 
   }
 
-  const fetchProfile = useCallback(async () => {
-    const profileData = await getProfile();
-    if (profileData != null) {
-      setProfile(profileData);
-      setLoginOk(true);
-    } else {
-      setLoginOk(false);
-    }
-  });
+  function onLogout() {
+    localStorage.removeItem("token");
+    setShowProfile(false);
+    setLoginOk(false);
+  }
+
+  // const fetchProfile = useCallback(async () => {
+  //   const profileData = await getProfile();
+  //   if (profileData != null) {
+  //     setProfile(profileData);
+  //     setLoginOk(true);
+  //   } else {
+  //     localStorage.removeItem("token");
+  //     setLoginOk(false);
+  //   }
+  // });
 
 
-  useEffect(() => {
-    // const storedToken = localStorage.getItem("token");
-    fetchProfile();
+  // useEffect(() => {
+  //   // const storedToken = localStorage.getItem("token");
+  //   fetchProfile();
 
-  }, [loginOk]);
+  // }, [loginOk]);
 
   return (
     <>
+      {/* <Navbar onLogoClick={setShowProfile} onProfileClick={setShowProfile} loginOk={loginOk} /> */}
       {!loginOk
         ? <Login onLoginComplete={onLoginComplete} error={error} />
         : <>
-          <Navbar onLogoClick={setShowProfile} onProfileClick={setShowProfile} />
+
           <div className="d-flex m-2">
             <SearchBar searchKeyword={onSearch} />
           </div>
           {showProfile
-            ? <Profile avatar={profile?.avatar} username={profile?.username} bio={profile?.bio} />
+            ? <Profile
+            // avatar={profile?.avatar} username={profile?.username} bio={profile?.bio} onLogout={onLogout}
+            />
             : <main className="container-fluid m-2">
               <PostList search={search} />
             </main>

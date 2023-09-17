@@ -2,19 +2,23 @@ import { useEffect, useState } from "react";
 import Post from "./post";
 import "../css/post_list.css";
 import { getPosts } from '../services/data_service';
-import { TimeAgo } from "../helpers/time_ago";
+
 
 const initialState = [];
 
 function PostList({ search }) {
     const [posts, setPosts] = useState(initialState);
     const [fetchError, setFetchError] = useState(null);
+    const [postChange, setPostChange] = useState(false);
 
     useEffect(() => {
         getPosts()
             .then((fposts) => {
                 if (fposts) {
                     setPosts(fposts);
+                    if (postChange == true) {
+                        setPostChange(false);
+                    }
                     setFetchError(null);
                 } else {
                     setPosts(initialState);
@@ -24,12 +28,11 @@ function PostList({ search }) {
             .catch((error) => {
                 setPosts(initialState);
             });
-    }, []);
+    }, [postChange]);
 
     return (
-        // <div className="container-fluid m-2">
-        //     <div className="d-flex flex-wrap">
-        <div className="d-flex flex-wrap p-5">
+
+        <div className="d-flex flex-wrap p-1">
             {posts === initialState
                 ? !fetchError ? "Loading..." : `${fetchError}`
                 : posts
@@ -41,19 +44,13 @@ function PostList({ search }) {
                     )
                     .map((post, i) => (
                         <Post className="m-1"
-                            key={i}
-                            date={TimeAgo(post.createdAt)}
-                            likes={post.likes}
-                            author={post.author.username}
-                            image={post.image}
-                            comments={post.comments.length}
-                            message={post.text}
-                            postKey={i}
+                            key={post.id}
+                            postValue={post}
+                            onPostChange={setPostChange}
                         />
                     ))
             }
         </div>
-        // </div>
     );
 }
 
