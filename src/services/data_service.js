@@ -33,25 +33,25 @@ export async function getPosts() {
     return null;
 }
 
-export async function getProfile() {
+
+
+export async function addLike(postId) {
     let token = localStorage.getItem("token");
     let urlBase = "https://three-points.herokuapp.com/api/";
-    let urlStr = urlBase + "users/me";
+    let urlStr = urlBase + `posts/${postId}/like`;
 
     try {
         let response = await axios.request({
             headers: { Authorization: `Bearer ${token}` },
-            method: "GET",
+            method: "POST",
             url: urlStr
-
         });
-        if (response.status == 200) {
-            return response.data;
+        if (response.status == 204) {
+            return true;
         }
-
-
     } catch (error) {
 
     }
-    return null;
+
+    return false;
 }
