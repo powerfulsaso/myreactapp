@@ -6,13 +6,24 @@ import { TimeAgo } from "../helpers/time_ago";
 
 const initialState = [];
 
-function PostList({ keyword }) {
-    const [posts, setPost] = useState(initialState);
+function PostList({ search }) {
+    const [posts, setPosts] = useState(initialState);
+    const [fetchError, setFetchError] = useState(null);
 
     useEffect(() => {
-        getPosts().then((posts) => {
-            setPost(posts);
-        });
+        getPosts()
+            .then((fposts) => {
+                if (fposts) {
+                    setPosts(fposts);
+                    setFetchError(null);
+                } else {
+                    setPosts(initialState);
+                    setFetchError("Error fetching posts...refresh browser!");
+                }
+            })
+            .catch((error) => {
+                setPosts(initialState);
+            });
     }, []);
 
     return (
@@ -20,10 +31,14 @@ function PostList({ keyword }) {
         //     <div className="d-flex flex-wrap">
         <div className="d-flex flex-wrap p-5">
             {posts === initialState
-                ? "Loading..."
+                ? !fetchError ? "Loading..." : `${fetchError}`
                 : posts
-                    .filter((post) => (keyword === "" ? true : post.text.toLowerCase().includes(keyword.toLowerCase()) ||
-                        post.author.username.toLowerCase().includes(keyword.toLowerCase())))
+                    .filter(
+                        (post) => (search === ""
+                            ? true
+                            : post.text.toLowerCase().includes(search.toLowerCase())
+                            || post.author.username.toLowerCase().includes(search.toLowerCase()))
+                    )
                     .map((post, i) => (
                         <Post className="m-1"
                             key={i}
