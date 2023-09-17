@@ -26,6 +26,7 @@ export async function getPosts() {
             return response.data;
         }
 
+
     } catch (error) {
 
     }
@@ -47,6 +48,7 @@ export async function getProfile() {
         if (response.status == 200) {
             return response.data;
         }
+
 
     } catch (error) {
 
