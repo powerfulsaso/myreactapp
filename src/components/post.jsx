@@ -14,7 +14,7 @@ function Post({ postValue, onPostChange }) {
     }
 
     return (
-        <div className="card m-2" style={{ width: "20rem" }} >
+        <div className="card m-2" style={{ width: "22rem" }} >
             <img src={postValue.image} className="card-img-top" alt="" />
             <div className="card-body">
                 <div className="container">

@@ -31,25 +31,26 @@ function PostList({ search }) {
     }, [postChange]);
 
     return (
-
-        <div className="d-flex flex-wrap p-1">
-            {posts === initialState
-                ? !fetchError ? "Loading..." : `${fetchError}`
-                : posts
-                    .filter(
-                        (post) => (search === ""
-                            ? true
-                            : post.text.toLowerCase().includes(search.toLowerCase())
-                            || post.author.username.toLowerCase().includes(search.toLowerCase()))
-                    )
-                    .map((post, i) => (
-                        <Post className="m-1"
-                            key={post.id}
-                            postValue={post}
-                            onPostChange={setPostChange}
-                        />
-                    ))
-            }
+        <div className="container-fluid d-flex justify-content-center align-items-center">
+            <div className="d-flex flex-wrap ">
+                {posts === initialState
+                    ? !fetchError ? "Loading..." : `${fetchError}`
+                    : posts
+                        .filter(
+                            (post) => (search === ""
+                                ? true
+                                : post.text.toLowerCase().includes(search.toLowerCase())
+                                || post.author.username.toLowerCase().includes(search.toLowerCase()))
+                        )
+                        .map((post, i) => (
+                            <Post className="m-1"
+                                key={post.id}
+                                postValue={post}
+                                onPostChange={setPostChange}
+                            />
+                        ))
+                }
+            </div>
         </div>
     );
 }

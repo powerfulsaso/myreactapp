@@ -24,3 +24,25 @@ export async function getUserToken(userName, password) {
 }
 
 
+export async function getProfile() {
+    let token = localStorage.getItem("token");
+    let urlBase = "https://three-points.herokuapp.com/api/";
+    let urlStr = urlBase + "users/me";
+
+    try {
+        let response = await axios.request({
+            headers: { Authorization: `Bearer ${token}` },
+            method: "GET",
+            url: urlStr
+
+        });
+        if (response.status == 200) {
+            return response.data;
+        }
+
+
+    } catch (error) {
+
+    }
+    return null;
+}
