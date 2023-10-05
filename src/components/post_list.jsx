@@ -40,7 +40,7 @@ function PostList({ search }) {
                             (post) => (search === ""
                                 ? true
                                 : post.text.toLowerCase().includes(search.toLowerCase())
-                                || post.author.username.toLowerCase().includes(search.toLowerCase()))
+                                    || post.author ? post.author.username.toLowerCase().includes(search.toLowerCase()) : false)
                         )
                         .map((post, i) => (
                             <Post className="m-1"

@@ -1,24 +1,25 @@
 import { Link, Navigate } from "react-router-dom";
-import { useUserContext } from "../contexts/user_context";
+import { UserContext } from "../contexts/user_context";
 import Navbar from "./navbar";
+import { useContext } from "react";
 
 function Profile() {
 
-    const userContext = useUserContext();
-    let avatar = userContext.profile?.avatar;
-    let username = userContext.profile?.username;
-    let bio = userContext.profile?.bio;
+    const { isLogin, profile, onLogout } = useContext(UserContext); //useUserContext();
+    let avatar = profile?.avatar;
+    let username = profile?.username;
+    let bio = profile?.bio;
 
     function onBtnLogout() {
         console.log("logout");
-        userContext.onLogout();
+        onLogout();
     }
 
 
     return (
         <>
             <Navbar />
-            {userContext.isLogin
+            {isLogin
                 ? <>
                     <div className="container mt-4" >
                         <div className="d-flex justify-content-center">
