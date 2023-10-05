@@ -1,14 +1,4 @@
-// import data from "../data/posts.json";
-
 import axios from 'axios';
-
-// export function getPosts() {
-//     return new Promise((resolve, rejected) => {
-//         window.setTimeout(() => {
-//             resolve([...data]);
-//         }, 3000);
-//     });
-// }
 
 export async function getPosts() {
     let token = localStorage.getItem("token");

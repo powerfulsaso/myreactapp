@@ -1,30 +1,10 @@
-import { useEffect } from "react";
-import { useUserContext } from "../contexts/user_context";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../contexts/user_context";
+import { Link } from "react-router-dom";
 
-function Navbar(
-    // { onLogoClick, onProfileClick, loginOk }
-) {
+function Navbar() {
 
-    const userContext = useUserContext();
-    const navigate = useNavigate();
-
-    // useEffect(() => {
-    //     const logoBtn = document.getElementById("logoBtn");
-    //     logoBtn.addEventListener("click", function (e) {
-    //         // onLogoClick(false); //oculta el profile
-    //         //navigate("/");
-    //     });
-
-    //     if (userContext.profile) {
-    //         const profileBtn = document.getElementById("profileBtn");
-    //         profileBtn.addEventListener("click", function (e) {
-    //             // onProfileClick(true);
-    //             // navigate("/profile");
-    //         });
-    //     }
-    // });
-
+    const userContext = useContext(UserContext); //useUserContext();
 
     return (
         < nav className="navbar bg-body-tertiary" >
