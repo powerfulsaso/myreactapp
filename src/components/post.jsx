@@ -38,7 +38,7 @@ function Post({ postValue, onPostChange }) {
                         </button>
                     </div>
                 </div>
-                <h6><b>{postValue.author.username}</b></h6>
+                <h6><b>{postValue.author != null ? postValue.author.username : ""}</b></h6>
                 {/* <h5 className="card-title">{title}</h5> */}
                 <p className="card-text">{postValue.text}</p>
                 <p className="text-muted">

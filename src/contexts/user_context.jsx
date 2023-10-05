@@ -1,51 +1,28 @@
-import { createContext, useContext, useEffect, useState } from "react";
-
-import Navbar from "../components/navbar";
-import { getProfile, getUserToken } from "../services/login_service";
-import Login from "../components/login";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { getProfile } from "../services/login_service";
 
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
-function UserContextProvider({ children }) {
-    const [profile, setProfile] = useState(null);
-    const [isLogin, setIsLogin] = useState(false);
-    const [userName, setUserName] = useState(""); // Estado para el valor de inputEmail
-    const [password, setPassword] = useState(""); // Estado para el valor de inputPassword
-    const [loginError, setLoginError] = useState(false);
+export function UserContextProvider({ children }) {
+    const [profileData, setProfile] = useState(null);
+    const [logged, setIsLogin] = useState(false);
 
-    function IsValidCredential() {
-        if (userName == "" || password == "") {
-            return false;
+    const onLoginComplete = useCallback((token) => {
+        if (token) {
+            localStorage.setItem("token", token);
+            setIsLogin(true);
         }
+    }, [setIsLogin]);
 
-        return true;
-    }
-    async function onLoginComplete() {
-        if (IsValidCredential()) {
-            let token = await getUserToken(userName, password);
-
-            if (token) {
-                localStorage.setItem("token", token);
-
-                setIsLogin(true);
-                setLoginError(false);
-
-            } else {
-                localStorage.removeItem("token");
-                setLoginError(true);
-                setIsLogin(false);
-            }
-        }
-    }
-
-    function onLogout() {
-        localStorage.removeItem("token");
+    const onLogout = useCallback(() => {
         setIsLogin(false);
-    }
+        localStorage.removeItem("token");
+    }, [setIsLogin]);
 
     //Verifica si el token es valido
-    useEffect(() => {
+    const validateToken = () => {
+
         getProfile().then((profileData) => {
             if (profileData != null) {
                 setProfile(profileData);
@@ -55,15 +32,27 @@ function UserContextProvider({ children }) {
                 setIsLogin(false);
             }
         }).catch((error) => { })
-    }, [isLogin]);
+    }
+
+    const isLogin = useMemo(() => {
+        return logged;
+    }, [logged]);
+
+    const profile = useMemo(() => {
+        return profileData;
+    }, [profileData]);
+
+
+    useEffect(() => {
+        validateToken();
+    }
+        , [isLogin]
+    );
 
 
     return (
         <UserContext.Provider
             value={{
-                setUserName,
-                setPassword,
-                loginError,
                 onLoginComplete,
                 onLogout,
                 isLogin,
@@ -75,8 +64,5 @@ function UserContextProvider({ children }) {
     );
 }
 
-export function useUserContext() {
-    return useContext(UserContext);
-}
 
 export default UserContextProvider;
